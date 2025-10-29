@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import itertools
 import random
 
 class Deck():
@@ -35,6 +34,7 @@ class Table():
         self.num_players = num_players
         self.deck = Deck()
         self.player = Player(self.num_players)
+        self.community = ()
 
     def draw_hands(self):
         player_cards = []
@@ -46,11 +46,19 @@ class Table():
         player_cards.clear()
 
     def draw_flop(self):
-        for i in range(2):
-            self.community = self.community + (self.deck.deck[i], )
+        for i in range(4):
+            if i != 0:
+                self.community = self.community + (self.deck.deck[0], )
+            self.deck.deck.pop(0)
+        print(self.community)
 
 
-table = Table(3)
-print(f"There are {table.num_players} players on this table.")
-table.draw_hands()
-print(table.player.hand)
+def main():
+    table = Table(3)
+    print(f"There are {table.num_players} players on this table, you are {table.player.position + 1}rd to play.")
+    table.draw_hands()
+    print(table.player.hand)
+    table.draw_flop()
+
+if __name__ == "__main__":
+    main()
