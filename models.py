@@ -29,6 +29,7 @@ class Table():
     num_players: int
     deck: Deck
     player: Player
+    community: tuple
 
     def __init__(self, num_players: int):
         self.num_players = num_players
@@ -39,12 +40,17 @@ class Table():
         player_cards = []
         for i in range(self.num_players * 2):
             if i % self.num_players == self.player.position:
-                player_cards.append(self.deck.deck[i])
-            self.deck.deck.pop(i)
+                player_cards.append(self.deck.deck[0])
+            self.deck.deck.pop(0)
         self.player.hand = (player_cards[0], player_cards[1])
         player_cards.clear()
 
-table = Table(random.randint(2, 5))
+    def draw_flop(self):
+        for i in range(2):
+            self.community = self.community + (self.deck.deck[i], )
+
+
+table = Table(3)
 print(f"There are {table.num_players} players on this table.")
 table.draw_hands()
 print(table.player.hand)
