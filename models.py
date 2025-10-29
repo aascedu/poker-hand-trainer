@@ -18,14 +18,8 @@ class Deck():
         random.shuffle(self.deck)
         random.shuffle(self.deck)
 
-class Hand():
-    cards: tuple()
-
-    def __init__(self, first_card: str, second_card: str):
-        self.cards = tuple(first_card, second_card)
-
 class Player():
-    hand: Hand
+    hand: tuple()
     position: int
 
     def __init__(self, max_pos: int):
@@ -42,11 +36,15 @@ class Table():
         self.player = Player(self.num_players)
 
     def draw_hands(self):
-        print(self.player.position)
+        player_cards = []
         for i in range(self.num_players * 2):
             if i % self.num_players == self.player.position:
-                print(f"Player {self.player.position} got {self.deck.deck[i]}")
+                player_cards.append(self.deck.deck[i])
+            self.deck.deck.pop(i)
+        self.player.hand = (player_cards[0], player_cards[1])
+        player_cards.clear()
 
-
-table = Table(3)
+table = Table(random.randint(2, 5))
+print(f"There are {table.num_players} players on this table.")
 table.draw_hands()
+print(table.player.hand)
